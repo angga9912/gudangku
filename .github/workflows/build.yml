@@ -21,8 +21,18 @@ jobs:
           distribution: "temurin"
           java-version: "17"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      # Runner ubuntu-latest sudah menyertakan Android SDK (ANDROID_HOME)
+      # dengan platform & build-tools umum, jadi tidak perlu action
+      # tambahan untuk setup SDK. Kita cukup pastikan lisensi platform
+      # yang dipakai project ini (compileSdk 34) sudah diterima.
+      - name: Accept Android SDK licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+
+      - name: Install required SDK platform & build-tools
+        run: |
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" \
+            "platforms;android-34" \
+            "build-tools;34.0.0"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
