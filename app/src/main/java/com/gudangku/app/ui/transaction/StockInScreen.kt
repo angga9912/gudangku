@@ -1,5 +1,6 @@
 package com.gudangku.app.ui.transaction
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -133,9 +134,8 @@ fun StockInScreen(
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth()
+                                    .clickable { selectedProduct = p }
                                     .padding(10.dp)
-                                    .then(Modifier)
-                                    .clickableSelect { selectedProduct = p }
                             ) {
                                 Text(text = p.name)
                                 Text(
@@ -195,5 +195,3 @@ fun StockInScreen(
     }
 }
 
-private fun Modifier.clickableSelect(onClick: () -> Unit): Modifier =
-    this.then(androidx.compose.foundation.clickable(onClick = onClick))
